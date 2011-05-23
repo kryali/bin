@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ROOT_UID=0
+
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+   echo "Must be root to run this script"
+   exit
+fi
+
+unblocked=`diff /etc/hosts.unblocked /etc/hosts`
+blocked=`diff /etc/hosts.blocked /etc/hosts`
+if [ -z "$unblocked" ]; then
+   `cp /etc/hosts.blocked /etc/hosts`
+   echo "Noise is blocked"
+   exit
+fi
+if [ -z "$blocked" ]; then
+   `cp /etc/hosts.unblocked /etc/hosts`
+   echo "Noise is unblocked"
+fi
+
+`dscacheutil -flushcache`
+exit
