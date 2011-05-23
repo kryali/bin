@@ -13,12 +13,12 @@ blocked=`diff /etc/hosts.blocked /etc/hosts`
 if [ -z "$unblocked" ]; then
    `cp /etc/hosts.blocked /etc/hosts`
    echo "Noise is blocked"
-   exit
 fi
 if [ -z "$blocked" ]; then
    `cp /etc/hosts.unblocked /etc/hosts`
    echo "Noise is unblocked"
 fi
 
+# Flush the dns cache
 `dscacheutil -flushcache`
 exit
